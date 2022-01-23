@@ -4,3 +4,5 @@ manage.py
 .env
 .idea
 RecipesRepository/RecipesRepository/__pycache__
+RecipesRepository/recipes/__pycache__
+RecipesRepository/recipes/migrations/__pycache__
