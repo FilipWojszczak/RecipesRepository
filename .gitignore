@@ -6,3 +6,4 @@ manage.py
 RecipesRepository/RecipesRepository/__pycache__
 RecipesRepository/recipes/__pycache__
 RecipesRepository/recipes/migrations/__pycache__
+RecipesRepository/accounts/__pycache__
