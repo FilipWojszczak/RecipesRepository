@@ -7,6 +7,8 @@ from django.utils.encoding import force_bytes, force_str
 from .tokens import account_activation_token
 from .models import User
 from django.contrib.auth import login
+from django.contrib.auth import views as auth_views
+from django.http import Http404
 
 
 def signup(request):
@@ -48,3 +50,18 @@ def activate(request, uidb64, token):
         return redirect('recipes:home')
     else:
         return render(request, 'account_activation_invalid.html')
+
+
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    def dispatch(self, request, *args, **kwargs):
+        request.session['password_reset_form_submitted'] = True
+        return super().dispatch(request, *args, **kwargs)
+
+
+class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    def get(self, request, *args, **kwargs):
+        if not request.session.get('password_reset_form_submitted', False):
+            raise Http404()
+        else:
+            request.session['password_reset_form_submitted'] = False
+            return super().get(request, *args, **kwargs)
