@@ -52,10 +52,47 @@ def activate(request, uidb64, token):
         return render(request, 'account_activation_invalid.html')
 
 
-class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+class LoginView(auth_views.LoginView):
     def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('recipes:home')
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+
+class LogoutView(auth_views.LogoutView):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            raise Http404()
+
+
+class PasswordResetView(auth_views.PasswordResetView):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            raise Http404()
+        else:
+            return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        request.session['password_reset_email_submitted'] = True
+        return super().post(request, *args, **kwargs)
+
+
+class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    def get(self, request, *args, **kwargs):
+        if not request.session.get('password_reset_email_submitted', False):
+            raise Http404()
+        else:
+            request.session['password_reset_email_submitted'] = False
+            return super().get(request, *args, **kwargs)
+
+
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    def post(self, request, *args, **kwargs):
         request.session['password_reset_form_submitted'] = True
-        return super().dispatch(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
 class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):

@@ -15,18 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth.urls import urlpatterns as auth_urlpatterns
 
-exclude_auth_urlpatterns = [
-    'password_change',
-    'password_change_done',
-    'password_reset_complete',
-    'password_reset_confirm'
-]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('accounts/', include([url for url in auth_urlpatterns if not url.name in exclude_auth_urlpatterns])),
     path('', include('recipes.urls'))
 ]
