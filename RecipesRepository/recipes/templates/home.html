@@ -3,5 +3,6 @@
 {% block content %}
   <h1>Recipes Repository Home</h1>
   <p>Welcome to Recipes Repository</p>
-<!--temporary content-->
+  <a href="{% url 'accounts:login' %}">Login</a>
+  <a href="{% url 'accounts:signup' %}">Signup</a>
 {% endblock %}

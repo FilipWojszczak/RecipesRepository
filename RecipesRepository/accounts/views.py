@@ -12,23 +12,26 @@ from django.http import Http404
 
 
 def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            current_site = get_current_site(request)
-            subject = 'Activate Your RecipesRepository Account'
-            message = render_to_string('registration/account_activation_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            user.email_user(subject, message)
-            return redirect('account_activation_sent')
+    if request.user.is_authenticated:
+        raise Http404()
     else:
-        form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+        if request.method == 'POST':
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                user = form.save()
+                current_site = get_current_site(request)
+                subject = 'Activate Your RecipesRepository Account'
+                message = render_to_string('registration/account_activation_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+                user.email_user(subject, message)
+                return redirect('account_activation_sent')
+        else:
+            form = SignUpForm()
+        return render(request, 'registration/signup.html', {'form': form})
 
 
 def account_activation_sent(request):

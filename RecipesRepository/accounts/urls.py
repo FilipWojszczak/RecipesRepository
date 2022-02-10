@@ -3,6 +3,7 @@ from .views import signup, account_activation_sent, activate, LoginView, LogoutV
     PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView
 from django.contrib.auth import views as auth_views
 
+app_name = 'accounts'
 
 urlpatterns = [
     path('signup/', signup, name='signup'),
