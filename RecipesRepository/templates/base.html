@@ -14,11 +14,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'recipes:home' %}">Recipes Repository</a>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <div class="navbar-nav">
         {% if user.is_authenticated %}
-        <div class="d-flex justify-content-end">
-          <div><a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a></div>
+        <div class="container-fluid">
+          <div><a class="nav-link " href="{% url 'accounts:logout' %}">Logout</a></div>
         </div>
         {% endif %}
       </div>
