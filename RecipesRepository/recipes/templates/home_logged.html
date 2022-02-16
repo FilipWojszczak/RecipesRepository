@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Recipes Repository Home</h1>
+  <p>Welcome {{ user.username }}</p>
+  {% if owned_recipes %}
+    {% for recipe in owned_recipes.all %}
+      <a href="#">{{ recipe.name }}</a>
+    {% empty %}
+      <h2>You don't have any recipes</h2>
+    {% endfor %}
+  {% endif %}
+
+{% endblock %}
