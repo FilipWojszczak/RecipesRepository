@@ -5,7 +5,7 @@
   <h1>{{ recipe.name }}</h1>
   <h2>Needed ingredients:</h2>
     {% for ingredient in recipe.ingredients.all %}
-      <p>{{ ingredient.name }}</p>
+      <p>{{ ingredient.product.name }}: {{ ingredient.amount }} {{ ingredient.unit }}</p>
     {% endfor %}
   <h2>Description of preparation:</h2>
   <div>{{ recipe.description }}</div>
