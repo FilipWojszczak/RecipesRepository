@@ -5,7 +5,7 @@
   <p>Welcome {{ user.username }}</p>
   {% if owned_recipes %}
     {% for recipe in owned_recipes.all %}
-      <a href="{% url 'recipes:get_recipe' recipe.id %}">{{ recipe.name }}</a>
+      <p><a href="{% url 'recipes:get_recipe' recipe.id %}">{{ recipe.name }}</a></p>
     {% empty %}
       <h2>You don't have any recipes</h2>
     {% endfor %}

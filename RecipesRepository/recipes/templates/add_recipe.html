@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h2>Add new recipe</h2>
+<form id="recipeForm" method="post">
+    {% csrf_token %}
+    <p>Name: {{ recipe_form.name }}</p>
+    {{ product_amount_formset.management_form }}
+
+    {% for product_amount_form in product_amount_formset %}
+        <div class="product-amount-formset">
+            Product: {{ product_amount_form.product }} Amount: {{ product_amount_form.amount }} {{ product_amount_form.unit }}
+<!--            {{ link_form.anchor }}-->
+<!--            {% if link_form.anchor.errors %}-->
+<!--                {% for error in link_form.anchor.errors %}-->
+<!--                    {{ error|escape }}-->
+<!--                {% endfor %}-->
+<!--            {% endif %}-->
+
+<!--            {{ link_form.url }}-->
+<!--            {% if link_form.url.errors %}-->
+<!--                {% for error in link_form.url.errors %}-->
+<!--                    {{ error|escape }}-->
+<!--                {% endfor %}-->
+<!--            {% endif %}-->
+        </div>
+    {% endfor %}
+<!--    <p>Product: {{ product_amount_form.product }} Amount: {{ product_amount_form.amount }} {{ product_amount_form.unit }}</p>-->
+    <p>Description:</p>
+    <p>{{ recipe_form.description }}</p>
+    <button type="submit">Save</button>
+</form>
+
+<script src="{% static '/js/jquery-1.3.2.min.js' %}"></script>
+<script src="{% static '/js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('.product-amount-formset').formset({
+        addText: 'add link',
+        deleteText: 'remove'
+    });
+    })
+</script>
+{% endblock %}

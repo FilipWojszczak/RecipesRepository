@@ -13,7 +13,7 @@ class Product(models.Model):
                     ]
     KCAL_UNIT_CHOICES = [("100", "kcal/100g"), ("10", "kcal/10g"), ("1", "kcal/1g")]
 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     kcal_unit = models.CharField(max_length=20, choices=KCAL_UNIT_CHOICES)
     kcal = models.DecimalField(max_digits=6, decimal_places=2)
@@ -26,6 +26,8 @@ class ProductAmount(models.Model):
     UNIT_CHOICES = [("mg", "milligram"),
                     ("g", "gram"),
                     ("kg", "kilogram"),
+                    ("ml", "milliliter"),
+                    ("l", "liter"),
                     ("pinch", "pinch")
                     ]
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -36,7 +38,7 @@ class ProductAmount(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
-    ingredients = models.ManyToManyField(ProductAmount)
+    ingredients = models.ManyToManyField(ProductAmount)  # TODO set on_delete cascade and replace ManyToMany field if needed
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="owned_recipes")
 
     def __str__(self):
