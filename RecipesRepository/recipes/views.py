@@ -38,10 +38,13 @@ def add_recipe(request):
             recipe.name = recipe_form.cleaned_data['name']
             recipe.description = recipe_form.cleaned_data['description']
             recipe.owner = request.user
-            for product_amount in product_amount_formset:
-                db_object = product_amount.save()
-                recipe.ingredients.add(db_object.id)
             recipe.save()
+            for product_amount_form in product_amount_formset:
+                product_amount = models.ProductAmount.objects.create(product=product_amount_form.cleaned_data['product'],
+                                                                     amount=product_amount_form.cleaned_data['amount'],
+                                                                     unit=product_amount_form.cleaned_data['unit'],
+                                                                     recipe=recipe)
+                product_amount.save()
             return redirect('recipes:home')
     else:
         recipe_form = RecipeForm()

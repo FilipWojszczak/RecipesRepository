@@ -13,7 +13,7 @@ class ProductAmountForm(forms.ModelForm):
 
     class Meta:
         model = ProductAmount
-        exclude = []
+        exclude = ['recipe']
 
     # def save(self, commit=True):
     #     product = Product.objects.get(name=self.cleaned_data['product'])

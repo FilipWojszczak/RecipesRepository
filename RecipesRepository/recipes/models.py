@@ -22,6 +22,15 @@ class Product(models.Model):
         return self.name
 
 
+class Recipe(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="owned_recipes")
+
+    def __str__(self):
+        return self.name
+
+
 class ProductAmount(models.Model):
     UNIT_CHOICES = [("mg", "milligram"),
                     ("g", "gram"),
@@ -33,13 +42,4 @@ class ProductAmount(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=3)
     unit = models.CharField(max_length=20, choices=UNIT_CHOICES)
-
-
-class Recipe(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    ingredients = models.ManyToManyField(ProductAmount)  # TODO set on_delete cascade and replace ManyToMany field if needed
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="owned_recipes")
-
-    def __str__(self):
-        return self.name
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="ingredients")
